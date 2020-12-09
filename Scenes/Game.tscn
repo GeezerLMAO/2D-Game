@@ -1,0 +1,535 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/DetectPlayer.gd" type="Script" id=2]
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=3]
+[ext_resource path="res://Scripts/Level.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/CameraController.gd" type="Script" id=5]
+
+[sub_resource type="QuadMesh" id=1]
+size = Vector2( 16, 32 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10.561, 20.8751 )
+
+[sub_resource type="Curve" id=3]
+min_value = -200.0
+max_value = 400.0
+_data = [ Vector2( 0, 382.955 ), 0.0, 0.0, 0, 0, Vector2( 0.272152, 55.6818 ), -722.815, -722.815, 0, 0, Vector2( 1, -124.318 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="Curve" id=5]
+max_value = 3.0
+_data = [ Vector2( 0.0126582, 2.78182 ), 0.0, 0.0, 0, 0, Vector2( 0.974684, 1.09091 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+emission_shape = 1
+emission_sphere_radius = 2.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 100.0
+linear_accel_random = 0.3
+linear_accel_curve = SubResource( 4 )
+scale = 2.0
+scale_random = 1.0
+scale_curve = SubResource( 6 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 131.817, 18.6343 )
+
+[sub_resource type="QuadMesh" id=9]
+size = Vector2( 32, 32 )
+
+[sub_resource type="RectangleShape2D" id=10]
+extents = Vector2( 16.0411, 15.9535 )
+
+[sub_resource type="QuadMesh" id=11]
+size = Vector2( 256, 16 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 127.942, 7.56027 )
+
+[sub_resource type="QuadMesh" id=13]
+size = Vector2( 1024, 600 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 602.733, 13.4654 )
+
+[sub_resource type="Environment" id=15]
+background_mode = 4
+glow_enabled = true
+glow_intensity = 1.15
+glow_strength = 0.96
+glow_bloom = 0.26
+glow_blend_mode = 0
+
+[node name="World" type="Node2D"]
+script = ExtResource( 3 )
+levels = [ NodePath("Level2"), NodePath("Level3") ]
+
+[node name="CameraPositions" type="Node" parent="."]
+
+[node name="0" type="Position2D" parent="CameraPositions"]
+position = Vector2( 738.314, -56.384 )
+
+[node name="1" type="Position2D" parent="CameraPositions"]
+position = Vector2( 1579.3, 12.5381 )
+
+[node name="2" type="Position2D" parent="CameraPositions"]
+position = Vector2( 2455.55, 56.2648 )
+
+[node name="3" type="Position2D" parent="CameraPositions"]
+position = Vector2( 3550.74, -107.735 )
+
+[node name="4" type="Position2D" parent="CameraPositions"]
+position = Vector2( 4575.84, 141.998 )
+
+[node name="5" type="Position2D" parent="CameraPositions"]
+position = Vector2( 6261.61, 245.312 )
+
+[node name="Doors" type="Node" parent="."]
+
+[node name="Door" type="Area2D" parent="Doors"]
+position = Vector2( 756.854, 182.976 )
+collision_layer = 0
+script = ExtResource( 2 )
+
+[node name="Mesh" type="MeshInstance2D" parent="Doors/Door"]
+modulate = Color( 0.0980392, 0.870588, 0.909804, 1 )
+mesh = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door"]
+shape = SubResource( 2 )
+
+[node name="Tween" type="Tween" parent="Doors/Door"]
+
+[node name="Particles2D" type="Particles2D" parent="Doors/Door"]
+emitting = false
+amount = 500
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.5
+process_material = SubResource( 7 )
+
+[node name="Door2" type="Area2D" parent="Doors"]
+position = Vector2( 2132.07, 168.721 )
+collision_layer = 0
+script = ExtResource( 2 )
+
+[node name="Mesh" type="MeshInstance2D" parent="Doors/Door2"]
+modulate = Color( 0.0980392, 0.870588, 0.909804, 1 )
+mesh = SubResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/Door2"]
+shape = SubResource( 2 )
+
+[node name="Tween" type="Tween" parent="Doors/Door2"]
+
+[node name="Particles2D" type="Particles2D" parent="Doors/Door2"]
+emitting = false
+amount = 500
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.5
+process_material = SubResource( 7 )
+
+[node name="PlayerDetectors" type="Node" parent="."]
+
+[node name="PlayerDetector" type="Area2D" parent="PlayerDetectors"]
+position = Vector2( 441.886, 140.762 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectors/PlayerDetector"]
+shape = SubResource( 8 )
+
+[node name="PlayerDetector2" type="Area2D" parent="PlayerDetectors"]
+position = Vector2( 1037.3, -41.4657 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectors/PlayerDetector2"]
+shape = SubResource( 8 )
+
+[node name="PlayerDetector3" type="Area2D" parent="PlayerDetectors"]
+position = Vector2( 2045.3, 172.534 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectors/PlayerDetector3"]
+shape = SubResource( 8 )
+
+[node name="PlayerDetector4" type="Area2D" parent="PlayerDetectors"]
+position = Vector2( 2985.39, 122.149 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectors/PlayerDetector4"]
+shape = SubResource( 8 )
+
+[node name="PlayerDetector5" type="Area2D" parent="PlayerDetectors"]
+position = Vector2( 4151.71, 126.371 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectors/PlayerDetector5"]
+shape = SubResource( 8 )
+
+[node name="PlayerDetector6" type="Area2D" parent="PlayerDetectors"]
+position = Vector2( 5071.48, 256.184 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectors/PlayerDetector6"]
+shape = SubResource( 8 )
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( 440.005, 273.881 )
+z_index = 1
+collision_mask = 2
+script = ExtResource( 1 )
+jump_force = 450.0
+gravity = 980.0
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Player"]
+mesh = SubResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource( 10 )
+
+[node name="Level1" type="Node2D" parent="."]
+
+[node name="Floor" type="StaticBody2D" parent="Level1"]
+position = Vector2( 447.396, 500.253 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level1/Floor"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/Floor"]
+shape = SubResource( 12 )
+
+[node name="Floor2" type="StaticBody2D" parent="Level1"]
+position = Vector2( 765.037, 420.843 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level1/Floor2"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/Floor2"]
+shape = SubResource( 12 )
+
+[node name="Floor3" type="StaticBody2D" parent="Level1"]
+position = Vector2( 1087.17, 333.941 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level1/Floor3"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/Floor3"]
+shape = SubResource( 12 )
+
+[node name="Floor4" type="StaticBody2D" parent="Level1"]
+position = Vector2( 754.361, 250.776 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level1/Floor4"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level1/Floor4"]
+shape = SubResource( 12 )
+
+[node name="Level2" type="Node2D" parent="."]
+script = ExtResource( 4 )
+visibility_tween_path = NodePath("../VsibilityTween")
+
+[node name="Floor" type="StaticBody2D" parent="Level2"]
+position = Vector2( 438.81, 180.095 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level2/Floor"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2/Floor"]
+shape = SubResource( 12 )
+
+[node name="Floor2" type="StaticBody2D" parent="Level2"]
+position = Vector2( 731.685, 81.6899 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level2/Floor2"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2/Floor2"]
+shape = SubResource( 12 )
+
+[node name="Floor3" type="StaticBody2D" parent="Level2"]
+position = Vector2( 1035.78, -8.18739 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level2/Floor3"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2/Floor3"]
+shape = SubResource( 12 )
+
+[node name="Floor4" type="StaticBody2D" parent="Level2"]
+position = Vector2( 1384.17, 148.517 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level2/Floor4"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2/Floor4"]
+shape = SubResource( 12 )
+
+[node name="Floor5" type="StaticBody2D" parent="Level2"]
+position = Vector2( 1719.3, 274.509 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level2/Floor5"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2/Floor5"]
+shape = SubResource( 12 )
+
+[node name="Floor6" type="StaticBody2D" parent="Level2"]
+position = Vector2( 2044.25, 205.414 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level2/Floor6"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level2/Floor6"]
+shape = SubResource( 12 )
+
+[node name="Level3" type="Node2D" parent="."]
+position = Vector2( 1916.01, -25.8353 )
+script = ExtResource( 4 )
+visibility_tween_path = NodePath("../VsibilityTween")
+
+[node name="Floor" type="StaticBody2D" parent="Level3"]
+position = Vector2( 438.81, 180.095 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor"]
+shape = SubResource( 12 )
+
+[node name="Floor2" type="StaticBody2D" parent="Level3"]
+position = Vector2( 755.658, 258.49 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor2"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor2"]
+shape = SubResource( 12 )
+
+[node name="Floor3" type="StaticBody2D" parent="Level3"]
+position = Vector2( 1065.74, 177.603 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor3"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor3"]
+shape = SubResource( 12 )
+
+[node name="Floor4" type="StaticBody2D" parent="Level3"]
+position = Vector2( 1468.07, 178.483 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor4"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor4"]
+shape = SubResource( 12 )
+
+[node name="Floor5" type="StaticBody2D" parent="Level3"]
+position = Vector2( 1845.16, 181.614 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor5"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor5"]
+shape = SubResource( 12 )
+
+[node name="Floor6" type="StaticBody2D" parent="Level3"]
+position = Vector2( 2239.03, 178.445 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor6"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor6"]
+shape = SubResource( 12 )
+
+[node name="Floor7" type="StaticBody2D" parent="Level3"]
+position = Vector2( 2536.01, 283.096 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor7"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor7"]
+shape = SubResource( 12 )
+
+[node name="Floor8" type="StaticBody2D" parent="Level3"]
+position = Vector2( 2847.14, 370.778 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor8"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor8"]
+shape = SubResource( 12 )
+
+[node name="Floor9" type="StaticBody2D" parent="Level3"]
+position = Vector2( 3152.61, 308.552 )
+collision_layer = 2
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="Level3/Floor9"]
+modulate = Color( 0.0509804, 0.839216, 0.156863, 1 )
+mesh = SubResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level3/Floor9"]
+shape = SubResource( 12 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 736.554, 330.179 )
+current = true
+script = ExtResource( 5 )
+
+[node name="Background" type="MeshInstance2D" parent="Camera2D"]
+modulate = Color( 0, 0, 0, 1 )
+z_index = -5
+mesh = SubResource( 13 )
+
+[node name="Tween" type="Tween" parent="Camera2D"]
+
+[node name="PlayerFall" type="Area2D" parent="Camera2D"]
+position = Vector2( -68.9221, 338.593 )
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Camera2D/PlayerFall"]
+shape = SubResource( 14 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 15 )
+
+[node name="VsibilityTween" type="Tween" parent="."]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 6256.48
+margin_top = 241.831
+margin_right = 6296.48
+margin_bottom = 255.831
+text = "Thank You... I guess"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="body_entered" from="Doors/Door" to="Doors/Door" method="_on_DetectPlayer_body_entered"]
+[connection signal="body_entered" from="Doors/Door2" to="Doors/Door2" method="_on_DetectPlayer_body_entered"]
+[connection signal="body_entered" from="Camera2D/PlayerFall" to="Camera2D" method="_on_PlayerFall_body_entered"]
